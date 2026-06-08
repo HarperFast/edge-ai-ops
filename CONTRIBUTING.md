@@ -254,7 +254,7 @@ Update:
 - Check existing documentation in `/docs`
 - Search issues on GitHub
 - Open discussion for questions
-- Join HarperDB community Discord
+- Join Harper community Discord
 
 ## License
 

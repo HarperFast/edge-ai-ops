@@ -911,15 +911,13 @@ export class ModelFetchJobs extends Resource {
 					};
 				}
 
-				// Reset job to queued
-				await tables.ModelFetchJob.update({
-					where: { id: jobId },
-					data: {
-						status: 'queued',
-						retryCount: 0,
-						lastError: null,
-						errorCode: null
-					}
+				// Reset job to queued (v5: use put with spread to avoid frozen-record mutation)
+				await tables.ModelFetchJob.put({
+					...job,
+					status: 'queued',
+					retryCount: 0,
+					lastError: null,
+					errorCode: null
 				});
 
 				return {

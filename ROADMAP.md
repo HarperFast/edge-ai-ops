@@ -212,7 +212,7 @@ Harper Edge AI aims to become a complete AI operations platform, providing:
 
 ### Core Principles
 
-1. **Harper-Native First** - Leverage HarperDB's built-in capabilities
+1. **Harper-Native First** - Leverage Harper's built-in capabilities
 2. **Simplicity Over Features** - Only add what's needed
 3. **Production-Ready** - Everything must be tested and reliable
 4. **Multi-Backend Support** - Don't lock into one framework

@@ -52,7 +52,9 @@ void suite('edge-ai-ops — Harper data layer', (ctx: ContextWithHarper) => {
   });
 
   after(async () => {
-    await teardownHarper(ctx);
+    if ((ctx as any).harper) {
+      await teardownHarper(ctx);
+    }
   });
 
   // ─── Health / boot ────────────────────────────────────────────────────────

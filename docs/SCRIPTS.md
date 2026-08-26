@@ -117,14 +117,14 @@ verify.sh works with three deployment scenarios:
 - Target: `http://localhost:9926` (default)
 - Example: `./verify.sh --deploy --full`
 
-**2. Local deployed (`harperdb deploy` to localhost)**
+**2. Local deployed (`harper deploy` to localhost)**
 
 - App deployed to `~/hdb/components/edge-ai-ops/`
 - Models must be fetched from HuggingFace (no local files available)
 - Target: `http://localhost:9926` (default)
 - Example: `./verify.sh --deploy --full`
 
-**3. Remote deployed (`harperdb deploy` to remote host)**
+**3. Remote deployed (`harper deploy` to remote host)**
 
 - App deployed to remote HarperDB instance
 - Models must be fetched from HuggingFace

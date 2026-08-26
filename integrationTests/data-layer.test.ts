@@ -13,7 +13,7 @@
  */
 
 import { suite, test, before, after } from 'node:test';
-import { strictEqual, ok, deepStrictEqual } from 'node:assert/strict';
+import { strictEqual, ok } from 'node:assert/strict';
 import {
   setupHarperWithFixture,
   teardownHarper,
@@ -21,21 +21,30 @@ import {
 } from '@harperfast/integration-testing';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
-import { createRequire } from 'node:module';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const FIXTURE_PATH = resolve(__dirname, '..');
 
 // harper's `exports` only exposes ".", so 'harper/dist/bin/harper.js' is not resolvable.
-// Resolve the CLI from the exported main entry and pass it explicitly.
-const require = createRequire(import.meta.url);
-const harperBinPath = resolve(dirname(require.resolve('harper')), 'bin/harper.js');
+// Resolve the CLI from the exported main entry and pass it explicitly. The
+// package requires Node >=22, so the native (stable) import.meta.resolve is
+// used rather than a createRequire shim.
+const harperMainPath = fileURLToPath(import.meta.resolve('harper'));
+const harperBinPath = resolve(dirname(harperMainPath), 'bin/harper.js');
 
 function authFetch(
   ctx: ContextWithHarper,
   path: string,
   init: RequestInit & { headers?: Record<string, string> } = {},
 ) {
+  // Without this, a failed `setupHarperWithFixture` surfaces as a cryptic
+  // "Cannot read properties of undefined" in every test rather than as the
+  // startup failure it actually is.
+  if (!ctx?.harper?.admin) {
+    throw new Error(
+      'Harper test instance is not initialized — setupHarperWithFixture did not complete successfully.',
+    );
+  }
   const { headers = {}, ...rest } = init;
   const creds = Buffer.from(
     `${ctx.harper.admin.username}:${ctx.harper.admin.password}`,
@@ -125,6 +134,10 @@ void suite('edge-ai-ops — Harper data layer', (ctx: ContextWithHarper) => {
     const res = await authFetch(ctx, '/ModelList');
     // May return 200 (list) or 401 (auth required) depending on env; both are valid behaviours.
     ok([200, 401, 403].includes(res.status), `unexpected status ${res.status}`);
+    if (res.status === 200) {
+      const body = await res.json();
+      ok(Array.isArray(body), 'expected GET /ModelList to return an array');
+    }
   });
 
   // ─── InferenceEvent table ─────────────────────────────────────────────────

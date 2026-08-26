@@ -33,11 +33,22 @@ jobs:
         env:
           NODE_VER: ${{ github.event.inputs.node-version }}
         run: |
+          # `push` and `pull_request` events carry no workflow input, so NODE_VER
+          # is empty on every PR run. That empty case MUST expand to the full
+          # matrix, exactly like an explicit "all" — if it ever fell through to
+          # the else branch it would emit `[]`, fromJSON() would yield an empty
+          # matrix, and CI would report green having run zero tests. The guard
+          # below makes that failure loud instead of silent.
           if [ "$NODE_VER" == "all" ] || [ -z "$NODE_VER" ]; then
-            echo "node-versions=[22, 24, 26]" >> $GITHUB_OUTPUT
+            NODE_VERSIONS="[22, 24, 26]"
           else
-            echo "node-versions=[$NODE_VER]" >> $GITHUB_OUTPUT
+            NODE_VERSIONS="[$NODE_VER]"
           fi
+          if [ "$NODE_VERSIONS" == "[]" ]; then
+            echo "::error::Refusing to run with an empty Node version matrix (NODE_VER='$NODE_VER')"
+            exit 1
+          fi
+          echo "node-versions=$NODE_VERSIONS" >> $GITHUB_OUTPUT
 
   integration-tests:
     name: Integration Tests (Node ${{ matrix.node-version }})

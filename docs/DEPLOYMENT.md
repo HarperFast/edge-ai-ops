@@ -24,7 +24,7 @@ npm run preload:testing          # Deploy test models
 1. **Harper CLI installed locally**
 
    ```bash
-   npm install -g harperdb
+   npm install -g harper
    ```
 
 2. **Remote Harper instance running**
@@ -174,7 +174,7 @@ harper-ai model test minilm:v1 --input "Hello world"
 
 - Check network connectivity to remote instance
 - Verify admin permissions on remote Harper
-- Review remote Harper logs: `harperdb logs target=$DEPLOY_REMOTE_URL`
+- Review remote Harper logs: `harper logs target=$DEPLOY_REMOTE_URL`
 
 **For script-specific issues**, see [Troubleshooting](SCRIPTS.md#troubleshooting) in SCRIPTS.md.
 
@@ -183,7 +183,7 @@ harper-ai model test minilm:v1 --input "Hello world"
 **Worker not starting:**
 
 - Verify `MODEL_FETCH_WORKER_ENABLED=true` in remote `.env`
-- Check worker logs: `harperdb logs target=$DEPLOY_REMOTE_URL | grep ModelFetchWorker`
+- Check worker logs: `harper logs target=$DEPLOY_REMOTE_URL | grep ModelFetchWorker`
 - Ensure schema.graphql was deployed
 
 **Jobs failing:**
@@ -227,10 +227,10 @@ Monitor remote instances:
 
 ```bash
 # View logs
-harperdb logs target=$DEPLOY_REMOTE_URL
+harper logs target=$DEPLOY_REMOTE_URL
 
 # Check system resources
-harperdb system_information target=$DEPLOY_REMOTE_URL
+harper system_information target=$DEPLOY_REMOTE_URL
 
 # Monitor model fetch jobs
 export HARPER_URL=$DEPLOY_REMOTE_URL

@@ -911,16 +911,26 @@ export class ModelFetchJobs extends Resource {
 					};
 				}
 
-				// Reset job to queued
-				await tables.ModelFetchJob.update({
-					where: { id: jobId },
-					data: {
-						status: 'queued',
-						retryCount: 0,
-						lastError: null,
-						errorCode: null
-					}
-				});
+				// Reset job to queued (v5: use put with spread to avoid frozen-record mutation)
+				// Coerce date strings to integer timestamps (Harper v5 may return ISO-8601 strings
+				// from get(); Date fields require integers for FIFO sort correctness)
+				const retryJobData = {
+					...job,
+					status: 'queued',
+					retryCount: 0,
+					lastError: null,
+					errorCode: null
+				};
+				if (typeof retryJobData.createdAt === 'string') {
+					retryJobData.createdAt = new Date(retryJobData.createdAt).getTime();
+				}
+				if (typeof retryJobData.startedAt === 'string') {
+					retryJobData.startedAt = new Date(retryJobData.startedAt).getTime();
+				}
+				if (typeof retryJobData.completedAt === 'string') {
+					retryJobData.completedAt = new Date(retryJobData.completedAt).getTime();
+				}
+				await tables.ModelFetchJob.put(retryJobData);
 
 				return {
 					jobId,

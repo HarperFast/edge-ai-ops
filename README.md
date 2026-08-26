@@ -1,6 +1,6 @@
 # Harper Edge AI
 
-**Production-ready multi-backend ML inference engine for HarperDB.**
+**Production-ready multi-backend ML inference engine for Harper.**
 
 Run ONNX, TensorFlow.js, Transformers.js, and Ollama models with unified API, async model fetching, profile-based management, and performance benchmarking.
 
@@ -39,7 +39,7 @@ ollama --version
 ### Installation
 
 ```bash
-git clone https://github.com/HarperDB/harper-edge-ai-example.git
+git clone https://github.com/HarperFast/edge-ai-ops.git
 cd harper-edge-ai-example
 npm install
 
@@ -413,7 +413,7 @@ Apache License 2.0 - See [LICENSE](LICENSE) for details.
 ## Support
 
 - **Documentation**: [docs/](docs/)
-- **Issues**: [GitHub Issues](https://github.com/HarperDB/harper-edge-ai-example/issues)
+- **Issues**: [GitHub Issues](https://github.com/HarperFast/edge-ai-ops/issues)
 - **Harper Docs**: https://docs.harperdb.io/
 
 ---
@@ -422,7 +422,7 @@ Apache License 2.0 - See [LICENSE](LICENSE) for details.
 
 Built with:
 
-- [HarperDB](https://harperdb.io) - Application and database platform
+- [Harper](https://harperdb.io) - Application and database platform
 - [ONNX Runtime](https://onnxruntime.ai/) - Optimized inference
 - [Transformers.js](https://huggingface.co/docs/transformers.js) - Hugging Face models in JS
 - [Ollama](https://ollama.ai/) - Local LLMs

@@ -1,86 +1,90 @@
 {
-	"type": "module",
-	"name": "harper-edge-ai-example",
-	"version": "1.0.0",
-	"description": "Harper Edge AI example with ONNX Runtime, TensorFlow.js, Transformers.js, and Ollama backends",
-	"main": "src/resources.js",
-	"bin": {
-		"harper-ai": "./scripts/cli/harper-ai.js"
-	},
-	"scripts": {
-		"preinstall": "echo '\n📦 Installing dependencies (this may take 1-2 minutes)...\n'",
-		"postinstall": "echo '\n✅ Installation complete!\n\n📝 Next steps:\n   npm run dev       - Start Harper server\n   npm run preload   - Load test models\n   npm run benchmark - Compare backends\n'",
-		"test": "node --test tests/unit/**/*.test.js",
-		"test:unit": "node --test tests/unit/**/*.test.js",
-		"test:integration": "node --test tests/integration/**/*.test.js",
-		"test:all": "npm run test:unit && npm run test:integration",
-		"test:model-fetch": "node scripts/test-model-fetch.js",
-		"test:profile": "node scripts/test-profile-deployment.js",
-		"test:profile:testing": "node scripts/test-profile-deployment.js --profile testing",
-		"test:profile:benchmarking": "node scripts/test-profile-deployment.js --profile benchmarking",
-		"test:profile:deploy": "node scripts/test-profile-deployment.js --deploy",
-		"test:benchmark": "node --test tests/integration/benchmark-comparison.test.js",
-		"lint": "eslint .",
-		"lint:fix": "eslint --fix .",
-		"format": "prettier --write .",
-		"format:check": "prettier --check .",
-		"dev": "harper dev .",
-		"start": "harper run .",
-		"clean": "rm -rf node_modules package-lock.json",
-		"verify": "node -e \"console.log('Node version:', process.version); console.log('✅ Environment OK')\"",
-		"preload": "node scripts/preload-models.js",
-		"preload:testing": "node scripts/preload-models.js --profile testing --clean",
-		"preload:benchmarking": "node scripts/preload-models.js --profile benchmarking --clean",
-		"benchmark": "node scripts/run-benchmark.js",
-		"benchmark:all": "node scripts/run-benchmark.js --all --no-prompt",
-		"pull-ollama": "node scripts/pull-ollama-models.js",
-		"generate-test-models": "node scripts/generate-test-models.js"
-	},
-	"lint-staged": {
-		"*.js": [
-			"eslint --fix",
-			"prettier --write"
-		],
-		"*.{json,md,yaml,yml}": [
-			"prettier --write"
-		]
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/HarperDB/harper-edge-ai-example.git"
-	},
-	"keywords": [
-		"harperdb",
-		"edge-ai",
-		"machine-learning",
-		"mlops",
-		"onnx",
-		"tensorflow",
-		"transformers",
-		"ollama",
-		"embeddings",
-		"inference-engine"
-	],
-	"author": "HarperDB",
-	"license": "Apache-2.0",
-	"dependencies": {
-		"uuid": "^11.0.3",
-		"onnxruntime-node": "1.20.1",
-		"@xenova/transformers": "^2.17.2"
-	},
-	"engines": {
-		"node": ">=18.0.0",
-		"npm": ">=9.0.0"
-	},
-	"os": [
-		"darwin",
-		"linux"
-	],
-	"devDependencies": {
-		"@harperdb/code-guidelines": "^0.0.5",
-		"eslint": "^9.36.0",
-		"husky": "^9.1.7",
-		"lint-staged": "^16.2.7",
-		"prettier": "^3.6.2"
-	}
+  "type": "module",
+  "name": "harper-edge-ai-example",
+  "version": "1.0.0",
+  "description": "Harper Edge AI example with ONNX Runtime, TensorFlow.js, Transformers.js, and Ollama backends (Harper v5)",
+  "main": "src/resources.js",
+  "bin": {
+    "harper-ai": "./scripts/cli/harper-ai.js"
+  },
+  "scripts": {
+    "preinstall": "echo '\n📦 Installing dependencies (this may take 1-2 minutes)...\n'",
+    "postinstall": "echo '\n✅ Installation complete!\n\n📝 Next steps:\n   npm run dev       - Start Harper server\n   npm run preload   - Load test models\n   npm run benchmark - Compare backends\n'",
+    "test": "node --test tests/unit/**/*.test.js",
+    "test:unit": "node --test tests/unit/**/*.test.js",
+    "test:integration": "harper-integration-test-run integrationTests/**/*.test.ts",
+    "test:integration:legacy": "node --test tests/integration/**/*.test.js",
+    "test:all": "npm run test:unit && npm run test:integration && npm run test:integration:legacy",
+    "test:model-fetch": "node scripts/test-model-fetch.js",
+    "test:profile": "node scripts/test-profile-deployment.js",
+    "test:profile:testing": "node scripts/test-profile-deployment.js --profile testing",
+    "test:profile:benchmarking": "node scripts/test-profile-deployment.js --profile benchmarking",
+    "test:profile:deploy": "node scripts/test-profile-deployment.js --deploy",
+    "test:benchmark": "node --test tests/integration/benchmark-comparison.test.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "dev": "harper dev .",
+    "start": "harper run .",
+    "clean": "rm -rf node_modules package-lock.json",
+    "verify": "node -e \"console.log('Node version:', process.version); console.log('✅ Environment OK')\"",
+    "preload": "node scripts/preload-models.js",
+    "preload:testing": "node scripts/preload-models.js --profile testing --clean",
+    "preload:benchmarking": "node scripts/preload-models.js --profile benchmarking --clean",
+    "benchmark": "node scripts/run-benchmark.js",
+    "benchmark:all": "node scripts/run-benchmark.js --all --no-prompt",
+    "pull-ollama": "node scripts/pull-ollama-models.js",
+    "generate-test-models": "node scripts/generate-test-models.js"
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yaml,yml}": [
+      "prettier --write"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HarperFast/edge-ai-ops.git"
+  },
+  "keywords": [
+    "harper",
+    "edge-ai",
+    "machine-learning",
+    "mlops",
+    "onnx",
+    "tensorflow",
+    "transformers",
+    "ollama",
+    "embeddings",
+    "inference-engine"
+  ],
+  "author": "Harper",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@xenova/transformers": "^2.17.2",
+    "harper": "^5.2.1",
+    "onnxruntime-node": "1.20.1",
+    "uuid": "^11.0.3"
+  },
+  "engines": {
+    "node": ">=22.0.0",
+    "npm": ">=9.0.0"
+  },
+  "os": [
+    "darwin",
+    "linux"
+  ],
+  "devDependencies": {
+    "@harperdb/code-guidelines": "^0.0.5",
+    "@harperfast/integration-testing": "^0.4.0",
+    "eslint": "^9.36.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
+    "prettier": "^3.6.2",
+    "typescript": "^6.0.3"
+  }
 }

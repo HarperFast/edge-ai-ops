@@ -88,8 +88,8 @@ check_prerequisites() {
     log_info "Checking prerequisites..."
 
     # Check if Harper CLI is installed
-    if ! command -v harperdb &> /dev/null; then
-        log_error "Harper CLI not found. Install with: npm install -g harperdb"
+    if ! command -v harper &> /dev/null; then
+        log_error "Harper CLI not found. Install with: npm install -g harper"
         exit 1
     fi
 
@@ -415,7 +415,7 @@ deploy_code() {
     log_info "  Skip node_modules: ${SKIP_NODE_MODULES}"
 
     # Build deploy command with all parameters
-    local deploy_cmd="harperdb deploy project=\"${DEPLOY_PROJECT_NAME}\" target=\"${REMOTE_URL}\" username=\"${REMOTE_USERNAME}\" password=\"${REMOTE_PASSWORD}\" replicated=\"${DEPLOY_REPLICATED}\" restart=\"${DEPLOY_RESTART}\""
+    local deploy_cmd="harper deploy project=\"${DEPLOY_PROJECT_NAME}\" target=\"${REMOTE_URL}\" username=\"${REMOTE_USERNAME}\" password=\"${REMOTE_PASSWORD}\" replicated=\"${DEPLOY_REPLICATED}\" restart=\"${DEPLOY_RESTART}\""
 
     # Add skip_node_modules if enabled
     if [[ "${SKIP_NODE_MODULES}" == "true" ]]; then
@@ -491,7 +491,7 @@ restart_harper() {
     export CLI_TARGET_PASSWORD="$REMOTE_PASSWORD"
 
     # Restart using Harper CLI
-    harperdb restart target="${REMOTE_URL}"
+    harper restart target="${REMOTE_URL}"
 
     # Unset credentials after use
     unset CLI_TARGET_USERNAME
@@ -538,7 +538,7 @@ check_deployment_status() {
     export CLI_TARGET_USERNAME="$REMOTE_USERNAME"
     export CLI_TARGET_PASSWORD="$REMOTE_PASSWORD"
 
-    harperdb status target="${REMOTE_URL}" || true
+    harper status target="${REMOTE_URL}" || true
 
     unset CLI_TARGET_USERNAME
     unset CLI_TARGET_PASSWORD
@@ -777,7 +777,7 @@ CONFIGURATION:
       MODEL_FETCH_TOKEN=your-token
 
 PREREQUISITES:
-    - Harper CLI installed: npm install -g harperdb
+    - Harper CLI installed: npm install -g harper
     - Remote Harper instance running
     - Valid admin credentials in .env or environment
 
